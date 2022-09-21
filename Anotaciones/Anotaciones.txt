@@ -1,0 +1,7 @@
+*Esta es otra forma o segunda implementación del useRef, que es utilizarlo como una referencia mutable.
+
+	Esto de las referencias mutables, cuando trabajamos con React tenemos dos tipos de variables por así decirlo que son persistentes en  cada renderización, una de esas variables
+	persistentes son los estados con los que hemos trabajado anteriormente como useState, useRef, useEffect; los cuales permiten almacenar su valor es un valor persistente y cuando
+        este estado cambie  se genera un nuevo render y el otro son las referencias mutables con el cual podemos tener una variable persistente que podemos mutar directamente, es decir,
+	asignarle valores no con una función de actualización sino como normalmente lo hacemos con otra variable y a su vez la diferencia clave es que esta referencia mutable al cambiar no
+	genera una nueva renderización y vamos a ver en que casos podria ser esto útil 
