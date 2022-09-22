@@ -2,6 +2,33 @@
 
 	Esto de las referencias mutables, cuando trabajamos con React tenemos dos tipos de variables por así decirlo que son persistentes en  cada renderización, una de esas variables
 	persistentes son los estados con los que hemos trabajado anteriormente como useState, useRef, useEffect; los cuales permiten almacenar su valor es un valor persistente y cuando
-        este estado cambie  se genera un nuevo render y el otro son las referencias mutables con el cual podemos tener una variable persistente que podemos mutar directamente, es decir,
+    este estado cambie  se genera un nuevo render y el otro son las referencias mutables con el cual podemos tener una variable persistente que podemos mutar directamente, es decir,
 	asignarle valores no con una función de actualización sino como normalmente lo hacemos con otra variable y a su vez la diferencia clave es que esta referencia mutable al cambiar no
-	genera una nueva renderización y vamos a ver en que casos podria ser esto útil 
+	genera una nueva renderización y vamos a ver en que casos podria ser esto útil.
+
+* En este ejercicio vamos a contar cuantas veces se renderiza un componente y mantener el valor de forma persistente, lo primero es crear una funcionalidad que genere varios
+  render. 
+
+  *¿Como podemos contar los Render?
+		Algo que se nos ocurriria en un principio seria simplemente crear un estado const [renders, setRenders] = useState(0); y efectivamente se tendira el estado inicializado
+		entonces podriamos pensar que cada vez que se renderice el componente creamos un setRenders y quedaria así setRenders(renders+1); sin embargo esto genera un problema grave 
+		porque cuando volvemos a llamar a setRenders el estado cambia y genera un nuevo render renderizando todo y volviendo a ejecutarse muchas veces; lo siguiente que pensariamos
+		en hacer seria en utilizar un efecto, pues si recordamos el useEffect si no le pasamos ningún parametro se ejecuta cada vez que ocurra una renderización y este se ejecuta 
+		después que el componente se renderizo:
+		
+				useEffect(() => {
+					setRenders(renders+1);
+				})
+		pero realmente caeriamos en lo mismo  porque una vez el componente se renderiza llama al useEffect y el useEffect llama a setRenders cambia el estado y eso hace que el componente
+		vuelva a renderizarse de nuevo y se vuelva un bucle infinito.
+
+		Y acá es cuando puede ser útil una referencia mutable que almacene el valor del número de renders por ejemplo y mantenga dicho valor durante todas las renderizaciones:
+
+			useEffect(() => {
+				console.log('renders');
+			})
+		Cada vez que el estado cambie, que modifiquemos en input se va a generar un nuevo render y por lo tanto se ejecuta la función del efecto (useEffect) que al no pasarle ningún
+		arreglo de dependencias pues se ejecuta con cada render.
+
+*Ahora vamos a crear una referencia y para ello vamos a importar un useRef, algo interesante es que con este hook podemos pasar un valor inicial, como por ejemplo podemos pasar el 0 y 
+este valor lo va a asignar por defecto a la propiedad carrent y si no le asignamos nada el valor por defecto o inicial va a ser undefined, en este caso lo vamos a iniciar con 1
